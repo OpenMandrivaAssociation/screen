@@ -108,7 +108,7 @@ rm -fr $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %doc NEWS README doc/FAQ doc/README.DOTSCREEN ChangeLog
 %{_bindir}/screen
-%{_mandir}/man1/screen.1.bz2
+%{_mandir}/man1/screen.1*
 %{_infodir}/screen.info*
 %attr(755,root,root) %config(noreplace) %{_sysconfdir}/profile.d/screen.sh
 %config(noreplace) %{_sysconfdir}/screenrc
