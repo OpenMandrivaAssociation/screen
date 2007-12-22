@@ -1,7 +1,7 @@
 Summary:	A screen manager that supports multiple logins on one terminal
 Name:		screen
 Version:	4.0.3
-Release: 	%mkrel 3
+Release: 	%mkrel 4
 License:	GPL
 Group:		Terminals
 BuildRequires:	ncurses-devel
@@ -84,12 +84,9 @@ install -c -m 0644 etc/screenrc $RPM_BUILD_ROOT/%{_sysconfdir}/skel/.screenrc
 
 mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/profile.d
 
-cat > $RPM_BUILD_ROOT/%{_sysconfdir}/profile.d/screen.sh <<EOF
-#!/bin/sh
-# %{_sysconfdir}/profile.d/screen.sh
-
-if [ -z "\$SCREENDIR" ]; then
-    export SCREENDIR=\$HOME/tmp
+cat > $RPM_BUILD_ROOT/%{_sysconfdir}/profile.d/20screen.sh <<'EOF'
+if [ -z "$SCREENDIR" ]; then
+    export SCREENDIR=$HOME/tmp
 fi
 EOF
 
@@ -109,7 +106,7 @@ rm -fr $RPM_BUILD_ROOT
 %{_bindir}/screen
 %{_mandir}/man1/screen.1*
 %{_infodir}/screen.info*
-%attr(755,root,root) %config(noreplace) %{_sysconfdir}/profile.d/screen.sh
+%config(noreplace) %{_sysconfdir}/profile.d/20screen.sh
 %config(noreplace) %{_sysconfdir}/screenrc
 %attr(644,root,root) %config(noreplace) %{_sysconfdir}/skel/.screenrc
 %{_datadir}/screen/
