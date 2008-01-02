@@ -28,6 +28,7 @@ Patch9:		screen-4.0.2-varargs.patch
 Patch12:	screen-4.0.3-ipv6.patch
 Requires(post): info-install
 Requires(pre):  info-install
+BuildRoot:	%{_tmppath}/%{name}-root
 
 %description
 The screen utility allows you to have multiple logins on just one
