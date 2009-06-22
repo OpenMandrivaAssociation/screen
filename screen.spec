@@ -1,7 +1,7 @@
 Summary:	A screen manager that supports multiple logins on one terminal
 Name:		screen
 Version:	4.0.3
-Release: 	%mkrel 6
+Release: 	%mkrel 7
 License:	GPLv2+
 Group:		Terminals
 BuildRequires:	ncurses-devel
@@ -28,6 +28,8 @@ Patch9:		screen-4.0.2-varargs.patch
 Patch12:	screen-4.0.3-ipv6.patch
 # from git, workaround vte's autodetect DEL
 Patch13:	screen-4.0.3-vte-autodetect-workaround.patch
+# Prevent format-string errors:
+Patch14:        screen-4.0.3-format-string.patch
 Requires(post): info-install
 Requires(pre):  info-install
 BuildRoot:	%{_tmppath}/%{name}-root
@@ -55,9 +57,10 @@ support multiple logins on one terminal.
 %patch9 -p1 -b .varargs
 %patch12 -p1 -b .ipv6
 %patch13 -p2 -b .vte
+%patch14 -p1 -b .format-string
 
 %build
-%configure2_5x
+%configure2_5x --enable-colors256
 perl -pi -e 's|.*#.*PTYMODE.*|#define PTYMODE 0620|' config.h
 perl -pi -e 's|.*#.*PTYGROUP.*|#define PTYGROUP 5|' config.h
 
