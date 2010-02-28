@@ -9,8 +9,6 @@ BuildRequires:	utempter-devel
 BuildRequires:	texinfo
 URL:		http://www.gnu.org/software/screen/
 Source0:	ftp://ftp.uni-erlangen.de/pub/utilities/screen/%{name}-%{version}.tar.gz
-# TODO check if still needed
-Patch1: 	screen-ia64.patch
 # TODO check if still needed 
 Patch3:		screen-makefile-ppc.patch
 # correct the location of various files in man page and info page 
@@ -46,7 +44,6 @@ support multiple logins on one terminal.
 %prep
 
 %setup -q
-%patch1 -p1
 %ifarch ppc
 %patch3 -p1
 %endif
