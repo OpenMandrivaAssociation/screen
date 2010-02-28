@@ -9,8 +9,6 @@ BuildRequires:	utempter-devel
 BuildRequires:	texinfo
 URL:		http://www.gnu.org/software/screen/
 Source0:	ftp://ftp.uni-erlangen.de/pub/utilities/screen/%{name}-%{version}.tar.gz
-# TODO check if still needed 
-Patch3:		screen-makefile-ppc.patch
 # correct the location of various files in man page and info page 
 Patch4:		screen-3.9.11-fix-utmp.diff
 # do not link with libelf, this is not needed
@@ -44,9 +42,6 @@ support multiple logins on one terminal.
 %prep
 
 %setup -q
-%ifarch ppc
-%patch3 -p1
-%endif
 %patch4 -p1
 %patch6 -p1 -b .no-libelf
 %patch7 -p1 -b .biarch-utmp
