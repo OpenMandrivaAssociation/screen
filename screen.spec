@@ -57,12 +57,13 @@ support multiple logins on one terminal.
 %patch14 -p1 -b .format-string
 
 %build
-%configure2_5x --enable-colors256
-perl -pi -e 's|.*#.*PTYMODE.*|#define PTYMODE 0620|' config.h
-perl -pi -e 's|.*#.*PTYGROUP.*|#define PTYGROUP 5|' config.h
+# 5 is tty group
+%configure2_5x --enable-colors256 \
+               --with-pty-mode=0620 \
+               --with-pty-group=5 \
+               --enable-telnet
 
 perl -pi -e 's|.*#undef HAVE_BRAILLE.*|#define HAVE_BRAILLE 1|' config.h
-perl -pi -e 's|.*#undef BUILTIN_TELNET.*|#define BUILTIN_TELNET 1|' config.h
 
 perl -pi -e 's|%{_prefix}/etc/screenrc|%{_sysconfdir}/screenrc|' config.h
 perl -pi -e 's|/usr/local/etc/screenrc|%{_sysconfdir}/screenrc|' etc/etcscreenrc doc/*
