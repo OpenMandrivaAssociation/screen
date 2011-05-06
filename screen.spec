@@ -1,7 +1,7 @@
 Summary:	A screen manager that supports multiple logins on one terminal
 Name:		screen
 Version:	4.0.3
-Release: 	%mkrel 9
+Release: 	%mkrel 10
 License:	GPLv2+
 Group:		Terminals
 BuildRequires:	ncurses-devel
