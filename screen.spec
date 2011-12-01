@@ -73,30 +73,30 @@ rm doc/screen.info*
 %make CFLAGS="$RPM_OPT_FLAGS -DETCSCREENRC=\\\"%{_sysconfdir}/screenrc\\\""
 
 %install
-rm -Rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/skel
+rm -Rf %{buildroot}
+mkdir -p %{buildroot}/%{_sysconfdir}/skel
 
 %makeinstall SCREENENCODINGS=%buildroot/%{_datadir}/screen/utf8encodings/
 
-( cd $RPM_BUILD_ROOT/%{_bindir} && {
+( cd %{buildroot}/%{_bindir} && {
 	rm -f screen.old screen
 	mv screen-%{version} screen
   }
 )
 
-install -c -m 0644 etc/etcscreenrc $RPM_BUILD_ROOT/%{_sysconfdir}/screenrc
-install -c -m 0644 etc/screenrc $RPM_BUILD_ROOT/%{_sysconfdir}/skel/.screenrc
+install -c -m 0644 etc/etcscreenrc %{buildroot}/%{_sysconfdir}/screenrc
+install -c -m 0644 etc/screenrc %{buildroot}/%{_sysconfdir}/skel/.screenrc
 
-mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/profile.d
+mkdir -p %{buildroot}/%{_sysconfdir}/profile.d
 
-cat > $RPM_BUILD_ROOT/%{_sysconfdir}/profile.d/20screen.sh <<'EOF'
+cat > %{buildroot}/%{_sysconfdir}/profile.d/20screen.sh <<'EOF'
 if [ -z "$SCREENDIR" ]; then
     export SCREENDIR=$HOME/tmp
 fi
 EOF
 
 %clean
-rm -fr $RPM_BUILD_ROOT
+rm -fr %{buildroot}
 
 %post
 %_install_info %name.
