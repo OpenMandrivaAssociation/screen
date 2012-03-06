@@ -1,7 +1,7 @@
-Summary:	A screen manager that supports multiple logins on one terminal
+Summary:	A manager that supports multiple logins on one terminal
 Name:		screen
 Version:	4.0.3
-Release: 	%mkrel 10
+Release:	11
 License:	GPLv2+
 Group:		Terminals
 BuildRequires:	ncurses-devel
@@ -9,6 +9,7 @@ BuildRequires:	utempter-devel
 BuildRequires:	texinfo
 URL:		http://www.gnu.org/software/screen/
 Source0:	ftp://ftp.uni-erlangen.de/pub/utilities/screen/%{name}-%{version}.tar.gz
+
 # correct the location of various files in man page and info page 
 # not sent upstream
 Patch4:		screen-3.9.11-fix-utmp.diff
@@ -30,9 +31,9 @@ Patch12:	screen-4.0.3-ipv6.patch
 Patch13:	screen-4.0.3-vte-autodetect-workaround.patch
 # Prevent format-string errors
 # sent upstream : https://savannah.gnu.org/bugs/index.php?29024
-Patch14:        screen-4.0.3-format-string.patch
-Requires(post): info-install
-Requires(pre):  info-install
+Patch14:	screen-4.0.3-format-string.patch
+Requires(post):	info-install
+Requires(pre):	info-install
 BuildRoot:	%{_tmppath}/%{name}-root
 
 %description
@@ -58,10 +59,10 @@ support multiple logins on one terminal.
 
 %build
 # 5 is tty group
-%configure2_5x --enable-colors256 \
-               --with-pty-mode=0620 \
-               --with-pty-group=5 \
-               --enable-telnet
+%configure2_5x	--enable-colors256 \
+		--with-pty-mode=0620 \
+		--with-pty-group=5 \
+		--enable-telnet
 
 perl -pi -e 's|.*#undef HAVE_BRAILLE.*|#define HAVE_BRAILLE 1|' config.h
 
@@ -91,7 +92,7 @@ mkdir -p %{buildroot}/%{_sysconfdir}/profile.d
 
 cat > %{buildroot}/%{_sysconfdir}/profile.d/20screen.sh <<'EOF'
 if [ -z "$SCREENDIR" ]; then
-    export SCREENDIR=$HOME/tmp
+	export SCREENDIR=$HOME/tmp
 fi
 EOF
 
@@ -115,5 +116,3 @@ rm -fr %{buildroot}
 %config(noreplace) %{_sysconfdir}/screenrc
 %attr(644,root,root) %config(noreplace) %{_sysconfdir}/skel/.screenrc
 %{_datadir}/screen/
-
-
