@@ -1,7 +1,7 @@
 Summary:	A manager that supports multiple logins on one terminal
 Name:		screen
 Version:	4.0.3
-Release:	11
+Release:	12
 License:	GPLv2+
 Group:		Terminals
 BuildRequires:	ncurses-devel
@@ -32,9 +32,6 @@ Patch13:	screen-4.0.3-vte-autodetect-workaround.patch
 # Prevent format-string errors
 # sent upstream : https://savannah.gnu.org/bugs/index.php?29024
 Patch14:	screen-4.0.3-format-string.patch
-Requires(post):	info-install
-Requires(pre):	info-install
-BuildRoot:	%{_tmppath}/%{name}-root
 
 %description
 The screen utility allows you to have multiple logins on just one
@@ -46,7 +43,6 @@ Install the screen package if you need a screen manager that can
 support multiple logins on one terminal.
 
 %prep
-
 %setup -q
 %patch4 -p1
 %patch6 -p1 -b .no-libelf
@@ -71,13 +67,13 @@ perl -pi -e 's|/usr/local/etc/screenrc|%{_sysconfdir}/screenrc|' etc/etcscreenrc
 perl -pi -e 's|/local/etc/screenrc|%{_sysconfdir}/screenrc|' doc/*
 rm doc/screen.info*
 
-%make CFLAGS="$RPM_OPT_FLAGS -DETCSCREENRC=\\\"%{_sysconfdir}/screenrc\\\""
+%make CFLAGS="%{optflags} -DETCSCREENRC=\\\"%{_sysconfdir}/screenrc\\\""
 
 %install
 rm -Rf %{buildroot}
-mkdir -p %{buildroot}/%{_sysconfdir}/skel
+mkdir -p %{buildroot}%{_sysconfdir}/skel
 
-%makeinstall SCREENENCODINGS=%buildroot/%{_datadir}/screen/utf8encodings/
+%makeinstall SCREENENCODINGS=%{buildroot}%{_datadir}/screen/utf8encodings/
 
 ( cd %{buildroot}/%{_bindir} && {
 	rm -f screen.old screen
@@ -96,18 +92,7 @@ if [ -z "$SCREENDIR" ]; then
 fi
 EOF
 
-%clean
-rm -fr %{buildroot}
-
-%post
-%_install_info %name.
-
-
-%preun
-%_remove_install_info %name
-
 %files
-%defattr(-,root,root)
 %doc NEWS README doc/FAQ doc/README.DOTSCREEN ChangeLog
 %{_bindir}/screen
 %{_mandir}/man1/screen.1*
