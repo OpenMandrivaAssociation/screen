@@ -1,0 +1,295 @@
+--- screen-4.0.3/ansi.c.bak	2009-06-22 16:16:36.000000000 -0400
++++ screen-4.0.3/ansi.c	2009-06-22 16:36:57.000000000 -0400
+@@ -2888,7 +2888,7 @@
+   extern struct layer *flayer;
+   struct layer *oldflayer = flayer;
+   flayer = &p->w_layer;
+-  LMsg(err, str);
++  LMsg(err, "%s", str);
+   flayer = oldflayer;
+ }
+ 
+--- screen-4.0.3/fileio.c.bak	2009-06-22 16:39:19.000000000 -0400
++++ screen-4.0.3/fileio.c	2009-06-22 16:49:21.000000000 -0400
+@@ -69,7 +69,7 @@
+     {
+       len2 = strlen(str2);
+       if ((cp = realloc(str2, (unsigned) len1 + len2 + add_colon + 1)) == NULL)
+-	Panic(0, strnomem);
++	  Panic(0, "%s", strnomem);
+       bcopy(cp, cp + len1 + add_colon, len2 + 1);
+     }
+   else
+@@ -77,7 +77,7 @@
+       if (len1 == 0)
+ 	return 0;
+       if ((cp = malloc((unsigned) len1 + add_colon + 1)) == NULL)
+-	Panic(0, strnomem);
++	  Panic(0, "%s", strnomem);
+       cp[len1 + add_colon] = '\0'; 
+     }
+   bcopy(str1, cp, len1);
+@@ -577,7 +577,7 @@
+   if ((buf = malloc(size)) == NULL)
+     {
+       close(i);
+-      Msg(0, strnomem);
++      Msg(0, "%s", strnomem);
+       return NULL;
+     }
+   errno = 0;
+@@ -827,7 +827,7 @@
+ #endif
+       execvp(*cmdv, cmdv);
+       close(1);
+-      Panic(errno, *cmdv);
++      Panic(errno, "%s", *cmdv);
+     default:
+       break;
+     }
+--- screen-4.0.3/screen.c.bak	2009-06-22 16:43:40.000000000 -0400
++++ screen-4.0.3/screen.c	2009-06-22 16:51:07.000000000 -0400
+@@ -1859,7 +1859,7 @@
+     free((char *)NewEnv);
+   NewEnv = np = (char **) malloc((unsigned) (op - environ + 7 + 1) * sizeof(char **));
+   if (!NewEnv)
+-    Panic(0, strnomem);
++    Panic(0, "%s", strnomem);
+   sprintf(stybuf, "STY=%s", strlen(SockName) <= MAXSTR - 5 ? SockName : "?");
+   *np++ = stybuf;	                /* NewEnv[0] */
+   *np++ = Term;	                /* NewEnv[1] */
+@@ -2187,7 +2187,7 @@
+       bt = (struct backtick *)malloc(sizeof *bt);
+       if (!bt)
+ 	{
+-	  Msg(0, strnomem);
++	  Msg(0, "%s", strnomem);
+           return;
+ 	}
+       bzero(bt, sizeof(*bt));
+@@ -2209,7 +2209,7 @@
+       bt->buf = (char *)malloc(MAXSTR);
+       if (bt->buf == 0)
+ 	{
+-	  Msg(0, strnomem);
++	  Msg(0, "%s", strnomem);
+ 	  setbacktick(num, 0, 0, (char **)0);
+           return;
+ 	}
+--- screen-4.0.3/misc.c.bak	2009-06-22 16:51:50.000000000 -0400
++++ screen-4.0.3/misc.c	2009-06-22 16:52:23.000000000 -0400
+@@ -52,7 +52,7 @@
+   register char *cp;
+ 
+   if ((cp = malloc(strlen(str) + 1)) == NULL)
+-    Panic(0, strnomem);
++    Panic(0, "%s", strnomem);
+   else
+     strcpy(cp, str);
+   return cp;
+@@ -66,7 +66,7 @@
+   register char *cp;
+ 
+   if ((cp = malloc(n + 1)) == NULL)
+-    Panic(0, strnomem);
++    Panic(0, "%s", strnomem);
+   else
+     {
+       bcopy((char *)str, cp, n);
+--- screen-4.0.3/resize.c.bak	2009-06-22 16:53:25.000000000 -0400
++++ screen-4.0.3/resize.c	2009-06-22 16:54:36.000000000 -0400
+@@ -557,7 +557,7 @@
+ # endif
+ #endif
+   if (!(blank && null && mline_old.image && mline_old.attr IFFONT(&& mline_old.font) IFCOLOR(&& mline_old.color) IFCOLORX(&& mline_old.colorx)))
+-    Panic(0, strnomem);
++    Panic(0, "%s", strnomem);
+ 
+   MakeBlankLine(blank, maxwidth);
+   bzero((char *)null, maxwidth);
+@@ -719,7 +719,7 @@
+ 	  if ((nmlines = (struct mline *)calloc(he, sizeof(struct mline))) == 0)
+ 	    {
+ 	      KillWindow(p);
+-	      Msg(0, strnomem);
++	      Msg(0, "%s", strnomem);
+ 	      return -1;
+ 	    }
+ 	}
+@@ -952,7 +952,7 @@
+ #endif
+ 		}
+ 	      KillWindow(p);
+-	      Msg(0, strnomem);
++	      Msg(0, "%s", strnomem);
+ 	      return -1;
+ 	    }
+ 	  for (; t < wi; t++)
+--- screen-4.0.3/socket.c.bak	2009-06-22 16:55:14.000000000 -0400
++++ screen-4.0.3/socket.c	2009-06-22 16:55:37.000000000 -0400
+@@ -1260,7 +1260,7 @@
+   ASSERT(display);
+   pwdata = (struct pwdata *)malloc(sizeof(struct pwdata));
+   if (!pwdata)
+-    Panic(0, strnomem);
++    Panic(0, "%s", strnomem);
+   pwdata->l = 0;
+   pwdata->m = *m;
+   D_processinputdata = (char *)pwdata;
+--- screen-4.0.3/window.c.bak	2009-06-22 16:56:21.000000000 -0400
++++ screen-4.0.3/window.c	2009-06-22 16:58:26.000000000 -0400
+@@ -588,7 +588,7 @@
+   if ((p = (struct win *)malloc(sizeof(struct win))) == 0)
+     {
+       close(f);
+-      Msg(0, strnomem);
++      Msg(0, "%s", strnomem);
+       return -1;
+     }
+   bzero((char *)p, (int)sizeof(struct win));
+@@ -620,7 +620,7 @@
+     {
+       free((char *)p);
+       close(f);
+-      Msg(0, strnomem);
++      Msg(0, "%s", strnomem);
+       return -1;
+     }
+ #endif
+@@ -1462,7 +1462,7 @@
+     }
+   if (!(pwin = (struct pseudowin *)malloc(sizeof(struct pseudowin))))
+     {
+-      Msg(0, strnomem);
++      Msg(0, "%s", strnomem);
+       return -1;
+     }
+   bzero((char *)pwin, (int)sizeof(*pwin));
+--- screen-4.0.3/termcap.c.bak	2009-06-22 16:59:05.000000000 -0400
++++ screen-4.0.3/termcap.c	2009-06-22 17:01:11.000000000 -0400
+@@ -133,7 +133,7 @@
+ 
+   if ((D_tentry = (char *)malloc(TERMCAP_BUFSIZE + (extra_incap ? strlen(extra_incap) + 1 : 0))) == 0)
+     {
+-      Msg(0, strnomem);
++      Msg(0, "%s", strnomem);
+       return -1;
+     }
+ 
+@@ -1192,7 +1192,7 @@
+ 
+   if ((D_xtable = (char ***)malloc(256 * sizeof(char **))) == 0)
+     {
+-      Msg(0, strnomem);
++      Msg(0, "%s", strnomem);
+       return -1;
+     }
+   bzero((char *)D_xtable, 256 * sizeof(char **));
+@@ -1211,7 +1211,7 @@
+         {
+           if ((D_xtable[curchar] = (char **)malloc(257 * sizeof(char *))) == 0)
+ 	    {
+-	      Msg(0, strnomem);
++	      Msg(0, "%s", strnomem);
+ 	      FreeTransTable();
+ 	      return -1;
+ 	    }
+@@ -1246,7 +1246,7 @@
+ 	    l = l * templnsub + templlen;
+ 	  if ((ctable[c] = (char *)malloc(l + 1)) == 0)
+ 	    {
+-	      Msg(0, strnomem);
++	      Msg(0, "%s", strnomem);
+ 	      FreeTransTable();
+ 	      return -1;
+ 	    }
+--- screen-4.0.3/attacher.c.bak	2009-06-22 17:01:45.000000000 -0400
++++ screen-4.0.3/attacher.c	2009-06-22 17:02:07.000000000 -0400
+@@ -715,7 +715,7 @@
+ 	      debug2("Lock: %s: return code %d\n", prg, WEXITSTATUS(wstat));
+ 	    }
+           else
+-	    printf(LockEnd);
++	    printf("%s", LockEnd);
+         }
+     }
+   else
+--- screen-4.0.3/process.c.bak	2009-06-22 17:02:58.000000000 -0400
++++ screen-4.0.3/process.c	2009-06-22 17:06:42.000000000 -0400
+@@ -594,7 +594,7 @@
+       kp = malloc(sizeof(*kp));
+       if (kp == 0)
+ 	{
+-	  Msg(0, strnomem);
++	  Msg(0, "%s", strnomem);
+ 	  return 0;
+ 	}
+       kp->name = SaveStr(class);
+@@ -2189,7 +2189,7 @@
+ 	 */
+         if ((dbuf = (char *)malloc(l)) == 0)
+           {
+-	    Msg(0, strnomem);
++	    Msg(0, "%s", strnomem);
+ 	    break;
+           }
+         l = 0;
+@@ -2276,7 +2276,7 @@
+ 		  newbuf = malloc(l + 1);
+ 		  if (!newbuf)
+ 		    {
+-		      Msg(0, strnomem);
++		      Msg(0, "%s", strnomem);
+ 		      break;
+ 		    }
+ 		  user->u_plop.len = RecodeBuf((unsigned char *)oldplop.buf, oldplop.len, oldplop.enc, enc, (unsigned char *)newbuf);
+@@ -3875,9 +3875,9 @@
+       return;
+     }
+   if ((pp = (char **)malloc((unsigned)(argc + 1) * sizeof(char **))) == 0)
+-    Panic(0, strnomem);
++    Panic(0, "%s", strnomem);
+   if ((lp = (int *)malloc((unsigned)(argc) * sizeof(int *))) == 0)
+-    Panic(0, strnomem);
++    Panic(0, "%s", strnomem);
+   act->nr = nr;
+   act->args = pp;
+   act->argl = lp;
+@@ -3899,7 +3899,7 @@
+   while (args[argc])
+     argc++;
+   if ((pp = ap = (char **)malloc((unsigned)(argc + 1) * sizeof(char **))) == 0)
+-    Panic(0, strnomem);
++    Panic(0, "%s", strnomem);
+   while (argc--)
+     *pp++ = SaveStr(*args++);
+   *pp = 0;
+@@ -5393,7 +5393,7 @@
+     {
+       if ((pp->buf = (char *)malloc(D_user->u_plop.len)) == NULL)
+ 	{
+-	  Msg(0, strnomem);
++	  Msg(0, "%s", strnomem);
+ 	  return;
+ 	}
+       bcopy(D_user->u_plop.buf, pp->buf, D_user->u_plop.len);
+@@ -5600,7 +5600,7 @@
+ #endif
+       if (!(u->u_plop.buf = SaveStr(u->u_password)))
+ 	{
+-	  Msg(0, strnomem);
++	  Msg(0, "%s", strnomem);
+           D_user->u_plop.len = 0;
+ 	}
+       else
+--- screen-4.0.3/display.c.bak	2009-06-22 17:07:10.000000000 -0400
++++ screen-4.0.3/display.c	2009-06-22 17:07:41.000000000 -0400
+@@ -3909,7 +3909,7 @@
+ #endif
+       display = 0;
+       execvpe(*cmdv, cmdv, NewEnv + 3);
+-      Panic(errno, *cmdv);
++      Panic(errno, "%s", *cmdv);
+     default:
+       break;
+     }
