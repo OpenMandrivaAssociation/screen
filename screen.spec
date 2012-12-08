@@ -101,3 +101,113 @@ EOF
 %config(noreplace) %{_sysconfdir}/screenrc
 %attr(644,root,root) %config(noreplace) %{_sysconfdir}/skel/.screenrc
 %{_datadir}/screen/
+
+
+%changelog
+* Mon Jun 04 2012 Andrey Bondrov <abondrov@mandriva.org> 4.0.3-12
++ Revision: 802224
+- Drop some legacy junk
+
+* Tue Mar 06 2012 Sergio Rafael Lemke <sergio@mandriva.com> 4.0.3-11
++ Revision: 782522
+- Rebuild and fix rpmlint complains
+
+* Fri May 06 2011 Oden Eriksson <oeriksson@mandriva.com> 4.0.3-10
++ Revision: 669965
+- mass rebuild
+
+* Fri Dec 03 2010 Oden Eriksson <oeriksson@mandriva.com> 4.0.3-9mdv2011.0
++ Revision: 607529
+- rebuild
+
+* Sun Mar 14 2010 Oden Eriksson <oeriksson@mandriva.com> 4.0.3-8mdv2010.1
++ Revision: 519070
+- rebuild
+
+  + Michael Scherer <misc@mandriva.org>
+    - remove old ppc patch as we have no ppc port, and as the patch seems to be a
+      work around for some awk bug
+    - remove unneeded patch coming from rh for old ia64 problem
+
+* Mon Jun 22 2009 Lev Givon <lev@mandriva.org> 4.0.3-7mdv2010.0
++ Revision: 388108
+- Refactor ia64 patch.
+  Add patch to fix format-string errors.
+  Enable 256 color support.
+
+* Mon Oct 13 2008 Funda Wang <fwang@mandriva.org> 4.0.3-6mdv2009.1
++ Revision: 293321
+- add patch from git to wor around vte's del key autodetect feature
+  https://savannah.gnu.org/bugs/index.php?23868
+- clearify the license
+
+* Wed Jun 18 2008 Thierry Vignaud <tv@mandriva.org> 4.0.3-5mdv2009.0
++ Revision: 225411
+- rebuild
+
+  + Olivier Blin <blino@mandriva.org>
+    - restore BuildRoot
+
+* Sat Dec 22 2007 Guillaume Rousse <guillomovitch@mandriva.org> 4.0.3-4mdv2008.1
++ Revision: 137010
+- no executable bit on profile scriptlet
+  order prefix on profile scriptlet
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - kill re-definition of %%buildroot on Pixel's request
+
+* Mon Sep 24 2007 Thierry Vignaud <tv@mandriva.org> 4.0.3-3mdv2008.0
++ Revision: 92613
+- fix man pages extension
+
+
+* Wed Mar 14 2007 Michael Scherer <misc@mandriva.org> 4.0.3-2mdv2007.1
++ Revision: 143661
+- remove patch11, was unclear and caused problem ( #29468 )
+
+* Thu Jan 25 2007 Per Øyvind Karlsen <pkarlsen@mandriva.com> 4.0.3-1mdv2007.1
++ Revision: 113524
+- new release: 4.0.5
+- bump MAXSTR (string buffer size) to 4k (from 256 bytes), fixes
+  status line issues with window list in status line and too many
+  windows (and possibly other issues with long strings) (P11 from fedora)
+- ipv6 patch (RHBZ #198410)
+
+* Tue Oct 31 2006 Michael Scherer <misc@mandriva.org> 4.0.2-10mdv2007.1
++ Revision: 74233
+- Bump release
+- document the remaining patchs
+-remove patch 5, screen-3.9.11-max-window-size.diff, as it does nothing except setting a constant,
+  that is used nowhere in the source ( and nowhere on the internet, according to google code search and
+  koders.com )
+- remove Patch0, it is applied to a code snippet enclosed in a #if !defined(linux), so it doesn't
+  apply to this package, unless we start to port mandriva to bsd.
+- bunzip patch
+- add fix for CVE-2006-4573
+- Import screen
+
+* Tue Sep 19 2006 Gwenole Beauchesne <gbeauchesne@mandriva.com> 4.0.2-9mdv2007.0
+- Rebuild
+
+* Fri Jul 21 2006 Michael Scherer <misc@mandriva.org> 4.0.2-8mdv2007.0
+- use mkrel
+- clean buildRoot
+
+* Mon May 08 2006 Stefan van der Eijk <stefan@eijk.nu> 4.0.2-7mdk
+- rebuild for sparc
+
+* Wed Aug 24 2005 Gwenole Beauchesne <gbeauchesne@mandriva.com> 4.0.2-6mdk
+- varargs fixes
+
+* Tue Apr 26 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.0.2-5mdk
+- Patch 8: add 'C-a U' binding to /etc/skel/.screenrc
+
+* Tue Nov 09 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.0.2-4mdk
+- The screen profile.d script (and hence $SCREENDIR) was broken
+
+* Thu Oct 14 2004 Olivier Thauvin <thauvin@aerov.jussieu.fr> 4.0.2-3mdk
+- don't use a bash fonction to start screen profile.d, exporting SCREENDIR instead
+
+* Wed Apr 21 2004 Olivier Blin <blino@mandrake.org> 4.0.2-2mdk
+- rebuild for new libncurses
+
