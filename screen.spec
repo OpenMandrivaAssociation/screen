@@ -1,12 +1,17 @@
+%bcond_without	uclibc
+
 Summary:	A manager that supports multiple logins on one terminal
 Name:		screen
 Version:	4.0.3
-Release:	12
+Release:	13
 License:	GPLv2+
 Group:		Terminals
 BuildRequires:	ncurses-devel
 BuildRequires:	utempter-devel
 BuildRequires:	texinfo
+%if %{with uclibc}
+BuildRequires:	uClibc-devel
+%endif
 URL:		http://www.gnu.org/software/screen/
 Source0:	ftp://ftp.uni-erlangen.de/pub/utilities/screen/%{name}-%{version}.tar.gz
 
@@ -32,8 +37,22 @@ Patch13:	screen-4.0.3-vte-autodetect-workaround.patch
 # Prevent format-string errors
 # sent upstream : https://savannah.gnu.org/bugs/index.php?29024
 Patch14:	screen-4.0.3-format-string.patch
+Patch15:	screen-4.0.3-uclibc-compile-fixes.patch
 
 %description
+The screen utility allows you to have multiple logins on just one
+terminal.  Screen is useful for users who telnet into a machine or
+are connected via a dumb terminal, but want to use more than just
+one login.
+
+Install the screen package if you need a screen manager that can
+support multiple logins on one terminal.
+
+%package -n	uclibc-%{name}
+Summary:	A manager that supports multiple logins on one terminal (uClibc build)
+Group:		Terminals
+
+%description -n	uclibc-%{name}
 The screen utility allows you to have multiple logins on just one
 terminal.  Screen is useful for users who telnet into a machine or
 are connected via a dumb terminal, but want to use more than just
@@ -52,28 +71,49 @@ support multiple logins on one terminal.
 %patch12 -p1 -b .ipv6
 %patch13 -p2 -b .vte
 %patch14 -p1 -b .format-string
+%patch15 -p1 -b .uclibc~
 
 %build
 # 5 is tty group
+CONFIGURE_TOP="$PWD"
+%if %{with uclibc}
+mkdir -p uclibc
+pushd uclibc
+%uclibc_configure \
+		--enable-colors256 \
+		--with-pty-mode=0620 \
+		--with-pty-group=5 \
+		--disable-telnet \
+		--disable-pam \
+		--with-sys-screenrc=%{_sysconfdir}/screenrc
+sed -e 's|.*#undef HAVE_BRAILLE.*|#define HAVE_BRAILLE 1|' -i config.h
+%make
+popd
+
+mkdir -p glibc
+pushd glibc
 %configure2_5x	--enable-colors256 \
 		--with-pty-mode=0620 \
 		--with-pty-group=5 \
 		--enable-telnet
+		--enable-pam \
+		--with-sys-screenrc=%{_sysconfdir}/screenrc
+sed -e 's|.*#undef HAVE_BRAILLE.*|#define HAVE_BRAILLE 1|' -i config.h
+%make
+popd
+%endif
 
 perl -pi -e 's|.*#undef HAVE_BRAILLE.*|#define HAVE_BRAILLE 1|' config.h
 
-perl -pi -e 's|%{_prefix}/etc/screenrc|%{_sysconfdir}/screenrc|' config.h
-perl -pi -e 's|/usr/local/etc/screenrc|%{_sysconfdir}/screenrc|' etc/etcscreenrc doc/*
-perl -pi -e 's|/local/etc/screenrc|%{_sysconfdir}/screenrc|' doc/*
-rm doc/screen.info*
-
-%make CFLAGS="%{optflags} -DETCSCREENRC=\\\"%{_sysconfdir}/screenrc\\\""
+sed -e 's|/usr/local/etc/screenrc|%{_sysconfdir}/screenrc|' -i etc/etcscreenrc doc/*
+sed -e 's|/local/etc/screenrc|%{_sysconfdir}/screenrc|' -i doc/*
 
 %install
-rm -Rf %{buildroot}
-mkdir -p %{buildroot}%{_sysconfdir}/skel
-
-%makeinstall SCREENENCODINGS=%{buildroot}%{_datadir}/screen/utf8encodings/
+%if %{with uclibc}
+%makeinstall_std -C uclibc
+mv -f %{buildroot}%{uclibc_root}%{_bindir}/screen{-*,}
+%endif
+%makeinstall_std -C glibc
 
 ( cd %{buildroot}/%{_bindir} && {
 	rm -f screen.old screen
@@ -81,12 +121,12 @@ mkdir -p %{buildroot}%{_sysconfdir}/skel
   }
 )
 
-install -c -m 0644 etc/etcscreenrc %{buildroot}/%{_sysconfdir}/screenrc
-install -c -m 0644 etc/screenrc %{buildroot}/%{_sysconfdir}/skel/.screenrc
+install -m644 etc/etcscreenrc -D %{buildroot}%{_sysconfdir}/screenrc
+install -m644 etc/screenrc -D %{buildroot}%{_sysconfdir}/skel/.screenrc
 
-mkdir -p %{buildroot}/%{_sysconfdir}/profile.d
+mkdir -p %{buildroot}%{_sysconfdir}/profile.d
 
-cat > %{buildroot}/%{_sysconfdir}/profile.d/20screen.sh <<'EOF'
+cat > %{buildroot}%{_sysconfdir}/profile.d/20screen.sh <<'EOF'
 if [ -z "$SCREENDIR" ]; then
 	export SCREENDIR=$HOME/tmp
 fi
@@ -102,6 +142,10 @@ EOF
 %attr(644,root,root) %config(noreplace) %{_sysconfdir}/skel/.screenrc
 %{_datadir}/screen/
 
+%if %{with uclibc}
+%files -n uclibc-%{name}
+%{uclibc_root}%{_bindir}/screen
+%endif
 
 %changelog
 * Mon Jun 04 2012 Andrey Bondrov <abondrov@mandriva.org> 4.0.3-12
