@@ -96,7 +96,7 @@ pushd glibc
 %configure2_5x	--enable-colors256 \
 		--with-pty-mode=0620 \
 		--with-pty-group=5 \
-		--enable-telnet
+		--enable-telnet \
 		--enable-pam \
 		--with-sys-screenrc=%{_sysconfdir}/screenrc
 sed -e 's|.*#undef HAVE_BRAILLE.*|#define HAVE_BRAILLE 1|' -i config.h
