@@ -51,6 +51,7 @@ support multiple logins on one terminal.
 %package -n	uclibc-%{name}
 Summary:	A manager that supports multiple logins on one terminal (uClibc build)
 Group:		Terminals
+Requires:	%{name} = %{EVRD}
 
 %description -n	uclibc-%{name}
 The screen utility allows you to have multiple logins on just one
