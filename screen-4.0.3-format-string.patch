@@ -1,5 +1,5 @@
 --- screen-4.0.3/ansi.c.format-string	2003-12-05 14:57:05.000000000 +0100
-+++ screen-4.0.3/ansi.c	2013-08-11 01:34:13.682994993 +0200
++++ screen-4.0.3/ansi.c	2013-08-11 02:35:31.875307024 +0200
 @@ -2888,7 +2888,7 @@ char *str;
    extern struct layer *flayer;
    struct layer *oldflayer = flayer;
@@ -10,7 +10,7 @@
  }
  
 --- screen-4.0.3/attacher.c.format-string	2003-09-08 16:24:48.000000000 +0200
-+++ screen-4.0.3/attacher.c	2013-08-11 01:34:13.683994995 +0200
++++ screen-4.0.3/attacher.c	2013-08-11 02:35:31.875307024 +0200
 @@ -715,7 +715,7 @@ LockTerminal()
  	      debug2("Lock: %s: return code %d\n", prg, WEXITSTATUS(wstat));
  	    }
@@ -21,7 +21,7 @@
      }
    else
 --- screen-4.0.3/display.c.format-string	2003-12-05 14:45:41.000000000 +0100
-+++ screen-4.0.3/display.c	2013-08-11 01:34:13.686995000 +0200
++++ screen-4.0.3/display.c	2013-08-11 02:35:31.876307026 +0200
 @@ -3909,7 +3909,7 @@ char **cmdv;
  #endif
        display = 0;
@@ -31,8 +31,8 @@
      default:
        break;
      }
---- screen-4.0.3/fileio.c.format-string	2013-08-11 01:34:13.665994963 +0200
-+++ screen-4.0.3/fileio.c	2013-08-11 01:34:13.687995002 +0200
+--- screen-4.0.3/fileio.c.format-string	2013-08-11 02:35:31.866307009 +0200
++++ screen-4.0.3/fileio.c	2013-08-11 02:35:31.876307026 +0200
 @@ -69,7 +69,7 @@ register char *str1, *str2;
      {
        len2 = strlen(str2);
@@ -70,7 +70,7 @@
        break;
      }
 --- screen-4.0.3/misc.c.format-string	2003-12-05 14:45:41.000000000 +0100
-+++ screen-4.0.3/misc.c	2013-08-11 01:34:13.688995003 +0200
++++ screen-4.0.3/misc.c	2013-08-11 02:35:31.877307028 +0200
 @@ -52,7 +52,7 @@ register const char *str;
    register char *cp;
  
@@ -90,7 +90,7 @@
      {
        bcopy((char *)str, cp, n);
 --- screen-4.0.3/process.c.format-string	2003-09-18 14:53:54.000000000 +0200
-+++ screen-4.0.3/process.c	2013-08-11 01:34:13.691995009 +0200
++++ screen-4.0.3/process.c	2013-08-11 02:35:31.878307030 +0200
 @@ -594,7 +594,7 @@ int create;
        kp = malloc(sizeof(*kp));
        if (kp == 0)
@@ -158,7 +158,7 @@
  	}
        else
 --- screen-4.0.3/resize.c.format-string	2003-09-08 16:26:31.000000000 +0200
-+++ screen-4.0.3/resize.c	2013-08-11 01:34:13.692995010 +0200
++++ screen-4.0.3/resize.c	2013-08-11 02:35:31.878307030 +0200
 @@ -557,7 +557,7 @@ int wi;
  # endif
  #endif
@@ -186,8 +186,8 @@
  	      return -1;
  	    }
  	  for (; t < wi; t++)
---- screen-4.0.3/screen.c.format-string	2013-08-11 01:34:13.673994977 +0200
-+++ screen-4.0.3/screen.c	2013-08-11 01:34:13.695995016 +0200
+--- screen-4.0.3/screen.c.format-string	2013-08-11 02:35:31.870307016 +0200
++++ screen-4.0.3/screen.c	2013-08-11 02:35:31.879307031 +0200
 @@ -1871,7 +1871,7 @@ MakeNewEnv()
      free((char *)NewEnv);
    NewEnv = np = (char **) malloc((unsigned) (op - environ + 7 + 1) * sizeof(char **));
@@ -216,7 +216,7 @@
            return;
  	}
 --- screen-4.0.3/socket.c.format-string	2003-09-08 16:26:50.000000000 +0200
-+++ screen-4.0.3/socket.c	2013-08-11 01:34:13.696995017 +0200
++++ screen-4.0.3/socket.c	2013-08-11 02:35:31.879307031 +0200
 @@ -1260,7 +1260,7 @@ struct msg *m;
    ASSERT(display);
    pwdata = (struct pwdata *)malloc(sizeof(struct pwdata));
@@ -227,7 +227,7 @@
    pwdata->m = *m;
    D_processinputdata = (char *)pwdata;
 --- screen-4.0.3/termcap.c.format-string	2003-09-08 16:45:36.000000000 +0200
-+++ screen-4.0.3/termcap.c	2013-08-11 01:34:13.697995019 +0200
++++ screen-4.0.3/termcap.c	2013-08-11 02:35:31.880307033 +0200
 @@ -133,7 +133,7 @@ int he;
  
    if ((D_tentry = (char *)malloc(TERMCAP_BUFSIZE + (extra_incap ? strlen(extra_incap) + 1 : 0))) == 0)
@@ -264,8 +264,19 @@
  	      FreeTransTable();
  	      return -1;
  	    }
---- screen-4.0.3/window.c.format-string	2013-08-11 01:34:13.670994972 +0200
-+++ screen-4.0.3/window.c	2013-08-11 01:34:13.699995023 +0200
+--- screen-4.0.3/utmp.c.format-string	2013-08-11 12:35:29.449072022 +0200
++++ screen-4.0.3/utmp.c	2013-08-11 12:35:34.316080519 +0200
+@@ -263,7 +263,7 @@ InitUtmp()
+   if ((utmpfd = open(UtmpName, O_RDWR)) == -1)
+     {
+       if (errno != EACCES)
+-	Msg(errno, UtmpName);
++	Msg(errno, "%s", UtmpName);
+       debug("InitUtmp failed.\n");
+       utmpok = 0;
+       return;
+--- screen-4.0.3/window.c.format-string	2013-08-11 02:35:31.868307012 +0200
++++ screen-4.0.3/window.c	2013-08-11 02:35:31.881307035 +0200
 @@ -595,7 +595,7 @@ struct NewWindow *newwin;
    if ((p = (struct win *)malloc(sizeof(struct win))) == 0)
      {
