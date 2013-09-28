@@ -3,10 +3,10 @@
 Summary:	A manager that supports multiple logins on one terminal
 Name:		screen
 Version:	4.0.3
-Release:	13
+Release:	14
 License:	GPLv2+
 Group:		Terminals
-BuildRequires:	ncurses-devel
+BuildRequires:	pkgconfig(ncursesw)
 BuildRequires:	utempter-devel
 BuildRequires:	texinfo
 %if %{with uclibc}
@@ -73,6 +73,7 @@ support multiple logins on one terminal.
 %patch13 -p2 -b .vte
 %patch14 -p1 -b .format-string
 %patch15 -p1 -b .uclibc~
+autoconf -f
 
 %build
 # 5 is tty group
