@@ -3,7 +3,7 @@
 Summary:	A manager that supports multiple logins on one terminal
 Name:		screen
 Version:	4.0.3
-Release:	14
+Release:	16.1
 License:	GPLv2+
 Group:		Terminals
 BuildRequires:	pkgconfig(ncursesw)
