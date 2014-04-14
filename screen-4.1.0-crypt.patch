@@ -1,0 +1,114 @@
+diff -Naur screen-orig/src/acls.c screen/src/acls.c
+--- screen-orig/src/acls.c	2012-03-07 06:05:35.000000000 -0500
++++ screen/src/acls.c	2012-04-23 22:57:03.595468724 -0400
+@@ -544,12 +544,25 @@
+ 
+       if (pw2 && *pw2 && *pw2 != '\377')	/* provided a system password */
+         {
+-	  if (!*pass ||				/* but needed none */
+-	      strcmp(crypt(pw2, pass), pass))
++	  if (!*pass)	 			/* but needed none */
+ 	    {
+ 	      debug("System password mismatch\n");
+ 	      sorry++;
+ 	    }
++	  else
++	    {
++	      char *cryptbuf =  crypt(pw2, pass);
++	      if(cryptbuf == NULL) 
++	       {
++	        debug("System crypt() failed\n");
++	        sorry++;
++	       }
++	      else if (strcmp(cryptbuf, pass))
++	       {
++	      debug("System password mismatch\n");
++	      sorry++;
++	       }
++	    }
+ 	}
+       else					/* no pasword provided */
+         if (*pass)				/* but need one */
+@@ -557,12 +570,29 @@
+ #endif
+       if (pw1 && *pw1 && *pw1 != '\377')	/* provided a screen password */
+ 	{
+-	  if (!*u->u_password ||		/* but needed none */
+-	      strcmp(crypt(pw1, u->u_password), u->u_password))
++	 char *cryptbuf;
++	  if (!*u->u_password)		/* but needed none */
+ 	    {
+ 	      debug("screen password mismatch\n");
+-              sorry++;
++	      sorry++;
+ 	    }
++	  else
++	   {
++	    cryptbuf = crypt(pw1, u->u_password);
++	    if (cryptbuf == NULL)
++	      {
++		debug("crypt() failed\n");
++		sorry++;
++	      }
++	    else
++	      {
++	      if(strcmp(cryptbuf, u->u_password))
++	       {
++		debug("screen password mismatch\n");
++		sorry++;
++	       }
++	      }
++	   }   
+ 	}
+       else					/* no pasword provided */
+         if (*u->u_password)			/* but need one */
+diff -Naur screen-orig/src/misc.c screen/src/misc.c
+--- screen-orig/src/misc.c	2012-03-07 06:05:35.000000000 -0500
++++ screen/src/misc.c	2012-04-23 22:34:56.740665509 -0400
+@@ -56,6 +56,8 @@
+ {
+   register char *cp;
+ 
++  if(str == NULL)
++    Panic(0, "SaveStr() received NULL - possibly failed crypt()");
+   if ((cp = malloc(strlen(str) + 1)) == NULL)
+     Panic(0, "%s", strnomem);
+   else
+diff -Naur screen-orig/src/process.c screen/src/process.c
+--- screen-orig/src/process.c	2012-03-07 06:05:35.000000000 -0500
++++ screen/src/process.c	2012-04-23 22:41:09.318930088 -0400
+@@ -6343,6 +6343,10 @@
+ 	salt[st] = 'A' + (int)((time(0) >> 6 * st) % 26);
+       salt[2] = 0;
+       buf = crypt(u->u_password, salt);
++      if(buf == NULL) {
++        Msg(0, "[ no working crypt() - no secure ]");
++	return;
++      }
+       bzero(u->u_password, strlen(u->u_password));
+       free((char *)u->u_password);
+       u->u_password = SaveStr(buf);
+diff -Naur screen-orig/src/socket.c screen/src/socket.c
+--- screen-orig/src/socket.c	2012-04-23 22:17:55.678316716 -0400
++++ screen/src/socket.c	2012-04-23 22:29:12.225173900 -0400
+@@ -1565,13 +1565,18 @@
+       c = *(unsigned char *)ibuf++;
+       if (c == '\r' || c == '\n')
+ 	{
++	  char *buf;
+ 	  up = D_user->u_password;
+ 	  pwdata->buf[l] = 0;
+-	  if (strncmp(crypt(pwdata->buf, up), up, strlen(up)))
++	  buf = crypt(pwdata->buf, up);
++	  if((buf == NULL) || (strncmp(buf, up, strlen(up))))
+ 	    {
+ 	      /* uh oh, user failed */
+ 	      bzero(pwdata->buf, sizeof(pwdata->buf));
+-	      AddStr("\r\nPassword incorrect.\r\n");
++	      if(buf==NULL)
++	      	AddStr("\r\ncrypt() failed.\r\n");
++	      else
++	      	AddStr("\r\nPassword incorrect.\r\n");
+ 	      D_processinputdata = 0;	/* otherwise freed by FreeDis */
+ 	      FreeDisplay();
+ 	      Msg(0, "Illegal reattach attempt from terminal %s.", pwdata->m.m_tty);

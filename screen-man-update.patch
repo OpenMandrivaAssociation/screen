@@ -1,0 +1,13 @@
+diff --git a/src/doc/screen.1 b/src/doc/screen.1
+index 70b39df..22d8dc8 100644
+--- a/src/doc/screen.1
++++ b/src/doc/screen.1
+@@ -3058,7 +3058,7 @@ Stuff the string
+ .I string
+ in the input buffer of the current window.
+ This is like the \*Qpaste\*U command but with much less overhead.
+-Without a paramter, screen will prompt for a string to stuff.
++Without a parameter, screen will prompt for a string to stuff.
+ You cannot paste
+ large buffers with the \*Qstuff\*U command. It is most useful for key
+ bindings. See also \*Qbindkey\*U.

@@ -1,0 +1,13 @@
+diff --git a/src/screen.c b/src/screen.c
+index af0fd82..cd0c71b 100644
+--- a/src/screen.c
++++ b/src/screen.c
+@@ -1005,7 +1005,7 @@ char **av;
+     Panic(0, "$HOME too long - sorry.");
+ 
+   attach_tty = "";
+-  if (!detached && !lsflag && !cmdflag && !(dflag && !mflag && !rflag && !xflag) && !(!mflag && !SockMatch && sty && !xflag))
++  if (!detached && !lsflag && !cmdflag && !(dflag && !mflag && !rflag && !xflag) && !(!mflag && !SockMatch && sty && !xflag && !rflag))
+     {
+ #ifndef NAMEDPIPE
+       int fl;
