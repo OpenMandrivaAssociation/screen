@@ -1,0 +1,26 @@
+diff --git a/src/display.h b/src/display.h
+index e8b3b80..b1ab748 100644
+--- a/src/display.h
++++ b/src/display.h
+@@ -73,7 +73,7 @@ struct display
+   struct win *d_other;		/* pointer to other window */
+   int   d_nonblock;		/* -1 don't block if obufmax reached */
+ 				/* >0: block after nonblock secs */
+-  char  d_termname[20 + 1];	/* $TERM */
++  char  d_termname[40 + 1];	/* $TERM */
+   char	*d_tentry;		/* buffer for tgetstr */
+   char	d_tcinited;		/* termcap inited flag */
+   int	d_width, d_height;	/* width/height of the screen */
+diff --git a/src/screen.h b/src/screen.h
+index 5c93f32..1a388e3 100644
+--- a/src/screen.h
++++ b/src/screen.h
+@@ -214,7 +214,7 @@ struct msg
+ 	  char preselect[20];
+ 	  int esc;		/* his new escape character unless -1 */
+ 	  int meta_esc;		/* his new meta esc character unless -1 */
+-	  char envterm[20 + 1];	/* terminal type */
++	  char envterm[40 + 1];	/* terminal type */
+ 	  int encoding;		/* encoding of display */
+ 	  int detachfirst;      /* whether to detach remote sessions first */
+ 	}
