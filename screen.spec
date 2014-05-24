@@ -6,7 +6,7 @@
 Summary:	A manager that supports multiple logins on one terminal
 Name:		screen
 Version:	4.2.1
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Terminals
 URL:		http://www.gnu.org/software/screen/
@@ -148,7 +148,7 @@ d %{_localstatedir}/run/screen 0775 root screen
 EOF
 
 %pre
-/usr/sbin/groupadd -g 86 -r -f screen
+/usr/sbin/groupadd -g 84 -r -f screen
 
 %files
 %doc NEWS README doc/FAQ doc/README.DOTSCREEN COPYING
