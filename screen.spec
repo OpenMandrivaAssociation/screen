@@ -109,9 +109,6 @@ sed -e 's|.*#undef HAVE_BRAILLE.*|#define HAVE_BRAILLE 1|' -i config.h
 popd
 %endif
 
-#sed -e 's|/usr/local/etc/screenrc|%{_sysconfdir}/screenrc|' -i etc/etcscreenrc doc/*
-#sed -e 's|/local/etc/screenrc|%{_sysconfdir}/screenrc|' -i doc/*
-
 %install
 %if %{with uclibc}
 %makeinstall_std -C uclibc
