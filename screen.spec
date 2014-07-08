@@ -91,6 +91,7 @@ pushd uclibc
 sed -e 's|.*#undef HAVE_BRAILLE.*|#define HAVE_BRAILLE 1|' -i config.h
 %make
 popd
+%endif
 
 mkdir -p glibc
 pushd glibc
@@ -107,7 +108,6 @@ pushd glibc
 sed -e 's|.*#undef HAVE_BRAILLE.*|#define HAVE_BRAILLE 1|' -i config.h
 %make
 popd
-%endif
 
 %install
 %if %{with uclibc}
