@@ -1,7 +1,7 @@
 Summary:	A manager that supports multiple logins on one terminal
 Name:		screen
 Version:	4.0.3
-Release:	17
+Release:	18
 License:	GPLv2+
 Group:		Terminals
 BuildRequires:	ncurses-devel
@@ -32,6 +32,8 @@ Patch13:	screen-4.0.3-vte-autodetect-workaround.patch
 # Prevent format-string errors
 # sent upstream : https://savannah.gnu.org/bugs/index.php?29024
 Patch14:	screen-4.0.3-format-string.patch
+#vertical split patch added by symbianflo
+Patch15:	wrp_vertical_split_0.3_4.0.2.diff
 
 %description
 The screen utility allows you to have multiple logins on just one
@@ -52,6 +54,7 @@ support multiple logins on one terminal.
 %patch12 -p1 -b .ipv6
 %patch13 -p2 -b .vte
 %patch14 -p1 -b .format-string
+%patch15 -p1 -b .vertical-split
 
 %build
 # 5 is tty group
