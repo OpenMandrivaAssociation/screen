@@ -5,8 +5,8 @@
 
 Summary:	A manager that supports multiple logins on one terminal
 Name:		screen
-Version:	4.2.1
-Release:	5
+Version:	4.3.0
+Release:	1
 License:	GPLv2+
 Group:		Terminals
 URL:		http://www.gnu.org/software/screen/
@@ -95,7 +95,8 @@ popd
 
 mkdir -p glibc
 pushd glibc
-%configure2_5x	--enable-colors256 \
+%configure \
+		--enable-colors256 \
 		--with-pty-mode=0620 \
 		--with-pty-group=$(getent group tty | cut -d : -f 3) \
 		--enable-telnet \
