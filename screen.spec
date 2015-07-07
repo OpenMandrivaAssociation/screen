@@ -5,20 +5,17 @@
 
 Summary:	A manager that supports multiple logins on one terminal
 Name:		screen
-Version:	4.3.0
+Version:	4.3.1
 Release:	1
 License:	GPLv2+
 Group:		Terminals
 URL:		http://www.gnu.org/software/screen/
 Source0:	ftp://ftp.gnu.org/gnu/screen/%{name}-%{version}.tar.gz
 Source1:	screen.pam
-Patch1:		screen-4.0.3-libs.patch
 Patch2:		screen-4.0.3-screenrc.patch
-Patch3:		screen-ipv6.patch
 Patch4:		screen-E3.patch
 Patch5:		screen-4.1.0-suppress_remap.patch
 Patch6:		screen-4.2.1-crypt.patch
-Patch7:		screen-altscreen.patch
 Patch15:	screen-4.2.1-uclibc-compile-fixes.patch
 
 BuildRequires:	pkgconfig(ncursesw)
@@ -55,14 +52,13 @@ support multiple logins on one terminal.
 
 %prep
 %setup -q
-%patch1 -p1 -b .libs~
 %patch2 -p1 -b .screenrc~
-%patch3 -p1 -b .ipv6~
 %patch4 -p1 -b .E3~
 %patch5 -p1 -b .suppress_remap~
 %patch6 -p1 -b .crypto~
-%patch7 -p1 -b .altscreen.patch~
+%if %{with uclibc}
 %patch15 -p1 -b .uclibc~
+%endif
 autoreconf -fiv
 
 for i in doc/screen.texinfo; do
@@ -71,7 +67,6 @@ done
 
 sed -e 's|/usr/local/etc/screenrc|%{_sysconfdir}/screenrc|' -i etc/etcscreenrc doc/*
 sed -e 's|/local/etc/screenrc|%{_sysconfdir}/screenrc|' -i doc/*
-rm config.h
 
 %build
 # 5 is tty group
