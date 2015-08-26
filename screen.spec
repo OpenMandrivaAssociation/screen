@@ -1,4 +1,4 @@
-%bcond_without	uclibc
+%bcond_with	uclibc
 %bcond_with	multiuser
 
 %global serverbuild_hardened 1
@@ -6,7 +6,7 @@
 Summary:	A manager that supports multiple logins on one terminal
 Name:		screen
 Version:	4.3.1
-Release:	2
+Release:	3
 License:	GPLv2+
 Group:		Terminals
 URL:		http://www.gnu.org/software/screen/
@@ -36,6 +36,7 @@ one login.
 Install the screen package if you need a screen manager that can
 support multiple logins on one terminal.
 
+%if %{with uclibc}
 %package -n	uclibc-%{name}
 Summary:	A manager that supports multiple logins on one terminal (uClibc build)
 Group:		Terminals
@@ -49,6 +50,7 @@ one login.
 
 Install the screen package if you need a screen manager that can
 support multiple logins on one terminal.
+%endif
 
 %prep
 %setup -q
