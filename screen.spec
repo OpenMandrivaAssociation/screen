@@ -5,7 +5,7 @@
 Summary:	A manager that supports multiple logins on one terminal
 Name:		screen
 Version:	4.4.0
-Release:	2
+Release:	3
 License:	PLv2+
 Group:		Terminals
 URL:		http://www.gnu.org/software/screen/
@@ -52,6 +52,7 @@ sed -e 's|/local/etc/screenrc|%{_sysconfdir}/screenrc|' -i doc/*
 
 %build
 # 5 is tty group
+CFLAGS="%{optflags} $(getconf LFS_CFLAGS)" \
 %configure \
 		--enable-colors256 \
 		--with-pty-mode=0620 \
