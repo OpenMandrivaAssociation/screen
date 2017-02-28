@@ -1,19 +1,8 @@
-commit 0aec2900f63820c3405ba38a4d1cd67cc22f0715
-Author: Miroslav Lichvar <mlichvar@redhat.com>
-Date:   Mon Jul 18 17:26:47 2011 +0200
-
-    Clear scrollback buffer when locking terminal
-    
-    Linux kernel 3.0 adds a new command to clear the scrollback buffer in
-    the linux console. It's available in the ncurses terminfo entry as
-    extended capability E3. This is useful to prevent an attacker to read
-    content of a locked terminal via Shift-PgUp key.
-
 diff --git a/display.c b/display.c
-index 5fa11cb..038c435 100644
+index b11b18b..180f19c 100644
 --- a/display.c
 +++ b/display.c
-@@ -3779,4 +3779,10 @@ char **cmdv;
+@@ -3818,4 +3818,10 @@ char **cmdv;
  
  #endif /* BLANKER_PRG */
  
@@ -25,7 +14,7 @@ index 5fa11cb..038c435 100644
 +}
  
 diff --git a/extern.h b/extern.h
-index c787d99..d3fecf0 100644
+index 7966008..e1ec242 100644
 --- a/extern.h
 +++ b/extern.h
 @@ -316,6 +316,7 @@ extern int   color256to88 __P((int));
@@ -37,11 +26,11 @@ index c787d99..d3fecf0 100644
  /* resize.c */
  extern int   ChangeWindowSize __P((struct win *, int, int, int));
 diff --git a/screen.c b/screen.c
-index cc8f565..3efb67b 100644
+index 64650e9..c68d949 100644
 --- a/screen.c
 +++ b/screen.c
-@@ -1967,6 +1967,7 @@ int mode;
- #endif
+@@ -1958,6 +1958,7 @@ void Detach(int mode)
+ 
      case D_LOCK:
        ClearAll();
 +      ClearScrollbackBuffer();
@@ -49,7 +38,7 @@ index cc8f565..3efb67b 100644
        /* tell attacher to lock terminal with a lockprg. */
        break;
 diff --git a/term.c b/term.c
-index 991de1b..7485900 100644
+index c92d85a..a6e9200 100644
 --- a/term.c
 +++ b/term.c
 @@ -83,6 +83,7 @@ struct term term[T_N] =
