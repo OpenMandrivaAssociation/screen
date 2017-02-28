@@ -15,6 +15,7 @@ Patch2:		screen-4.0.3-screenrc.patch
 Patch4:		screen-E3.patch
 Patch5:		screen-4.1.0-suppress_remap.patch
 Patch6:		screen-4.2.1-crypt.patch
+Patch7:		screen-4.5.1-texinfo.patch
 BuildRequires:	pkgconfig(ncursesw)
 BuildRequires:	pam-devel
 BuildRequires:	utempter-devel
@@ -59,6 +60,7 @@ CFLAGS="%{optflags} $(getconf LFS_CFLAGS)" \
 
 sed -e 's|.*#undef HAVE_BRAILLE.*|#define HAVE_BRAILLE 1|' -i config.h
 %make
+%make -C doc
 
 %install
 %makeinstall_std
