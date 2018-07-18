@@ -20,6 +20,7 @@ BuildRequires:	pkgconfig(ncursesw)
 BuildRequires:	pam-devel
 BuildRequires:	utempter-devel
 BuildRequires:	texinfo
+BuildRequires:	systemd-macros
 Requires(pre):	shadow
 
 %description
