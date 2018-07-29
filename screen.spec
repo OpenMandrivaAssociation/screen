@@ -5,7 +5,7 @@
 Summary:	A manager that supports multiple logins on one terminal
 Name:		screen
 Version:	4.6.2
-Release:	1
+Release:	2
 License:	PLv2+
 Group:		Terminals
 URL:		http://www.gnu.org/software/screen/
@@ -87,9 +87,9 @@ mkdir -p %{buildroot}%{_tmpfilesdir}
 cat <<EOF > %{buildroot}%{_tmpfilesdir}/screen.conf
 # screen needs directory in /var/run
 %if %{with multiuser}
-d %{_localstatedir}/run/screen 0755 root root
+d /run/screen 0755 root root
 %else
-d %{_localstatedir}/run/screen 0775 root screen
+d /run/screen 0775 root screen
 %endif
 EOF
 
