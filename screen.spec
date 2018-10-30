@@ -5,7 +5,7 @@
 Summary:	A manager that supports multiple logins on one terminal
 Name:		screen
 Version:	4.6.2
-Release:	2
+Release:	3
 License:	PLv2+
 Group:		Terminals
 URL:		http://www.gnu.org/software/screen/
