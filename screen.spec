@@ -4,9 +4,9 @@
 
 Summary:	A manager that supports multiple logins on one terminal
 Name:		screen
-Version:	4.6.2
-Release:	3
-License:	PLv2+
+Version:	4.7.0
+Release:	1
+License:	GPLv2+
 Group:		Terminals
 URL:		http://www.gnu.org/software/screen/
 Source0:	ftp://ftp.gnu.org/gnu/screen/%{name}-%{version}.tar.gz
@@ -15,7 +15,6 @@ Patch2:		screen-4.0.3-screenrc.patch
 Patch4:		screen-E3.patch
 Patch5:		screen-4.1.0-suppress_remap.patch
 Patch6:		screen-4.2.1-crypt.patch
-Patch7:		screen-4.5.1-texinfo.patch
 BuildRequires:	pkgconfig(ncursesw)
 BuildRequires:	pam-devel
 BuildRequires:	utempter-devel
