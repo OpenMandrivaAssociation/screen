@@ -33,7 +33,7 @@ support multiple logins on one terminal.
 
 %prep
 %setup -q
-%apply_patches
+%autopatch -p1
 
 autoreconf -fiv
 
