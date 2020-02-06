@@ -4,7 +4,7 @@
 
 Summary:	A manager that supports multiple logins on one terminal
 Name:		screen
-Version:	4.7.0
+Version:	4.8.0
 Release:	1
 License:	GPLv2+
 Group:		Terminals
@@ -63,7 +63,7 @@ sed -e 's|.*#undef HAVE_BRAILLE.*|#define HAVE_BRAILLE 1|' -i config.h
 %make -C doc
 
 %install
-%makeinstall_std
+%make_install
 mv -f %{buildroot}%{_bindir}/screen{-%{version},}
 
 install -m644 etc/etcscreenrc -D %{buildroot}%{_sysconfdir}/screenrc
