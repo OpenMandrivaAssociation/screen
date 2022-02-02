@@ -4,7 +4,7 @@
 
 Summary:	A manager that supports multiple logins on one terminal
 Name:		screen
-Version:	4.8.0
+Version:	4.9.0
 Release:	1
 License:	GPLv2+
 Group:		Terminals
@@ -15,6 +15,7 @@ Patch2:		screen-4.0.3-screenrc.patch
 Patch4:		screen-E3.patch
 Patch5:		screen-4.1.0-suppress_remap.patch
 Patch6:		screen-4.2.1-crypt.patch
+Patch7:		screen-4.9.0-compile.patch
 BuildRequires:	pkgconfig(ncursesw)
 BuildRequires:	pam-devel
 BuildRequires:	utempter-devel
@@ -32,9 +33,7 @@ Install the screen package if you need a screen manager that can
 support multiple logins on one terminal.
 
 %prep
-%setup -q
-%autopatch -p1
-
+%autosetup -p1
 autoreconf -fiv
 
 for i in doc/screen.texinfo; do
