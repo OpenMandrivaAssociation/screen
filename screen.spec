@@ -4,19 +4,16 @@
 
 Summary:	A manager that supports multiple logins on one terminal
 Name:		screen
-Version:	4.9.0
-Release:	3
+Version:	4.9.1
+Release:	1
 License:	GPLv2+
 Group:		Terminals
 URL:		http://www.gnu.org/software/screen/
 Source0:	ftp://ftp.gnu.org/gnu/screen/%{name}-%{version}.tar.gz
 Source1:	screen.pam
-Patch0:		https://raw.githubusercontent.com/gentoo/gentoo/master/app-misc/screen/files/screen-4.9.0-configure-implicit-function-decls.patch
 Patch2:		screen-4.0.3-screenrc.patch
 Patch4:		screen-E3.patch
 Patch5:		screen-4.1.0-suppress_remap.patch
-Patch6:		screen-4.2.1-crypt.patch
-Patch7:		screen-4.9.0-compile.patch
 BuildRequires:	pkgconfig(ncursesw)
 BuildRequires:	pam-devel
 BuildRequires:	utempter-devel
