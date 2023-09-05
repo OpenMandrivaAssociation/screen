@@ -1,0 +1,46 @@
+diff -up screen-4.9.1/display.c.omv~ screen-4.9.1/display.c
+diff -up screen-4.9.1/doc/screen.1.omv~ screen-4.9.1/doc/screen.1
+--- screen-4.9.1/doc/screen.1.omv~	2023-09-05 13:49:38.724245297 +0200
++++ screen-4.9.1/doc/screen.1	2023-09-05 13:49:44.481302200 +0200
+@@ -378,7 +378,7 @@ See also the \*Qshelltitle\*U .screenrc
+ .TP 5
+ .BI "\-T " term
+ Set the $TERM environment variable using the specified term as
+-opposed to the default setting of \fBscreen\fP.
++opposed to the default setting of \fBscreen-256color\fP.
+ .TP 5
+ .B \-U
+ Run screen in UTF-8 mode. This option tells screen that your terminal
+diff -up screen-4.9.1/doc/screen.texinfo.omv~ screen-4.9.1/doc/screen.texinfo
+--- screen-4.9.1/doc/screen.texinfo.omv~	2023-09-05 13:49:50.328359922 +0200
++++ screen-4.9.1/doc/screen.texinfo	2023-09-05 13:49:55.650412399 +0200
+@@ -444,7 +444,7 @@ This option is equivalent to the @code{s
+ 
+ @item -T @var{term}
+ Set the $TERM enviroment variable using the specified @emph{term} as
+-opposed to the default setting of @code{screen}.
++opposed to the default setting of @code{screen-256color}.
+ 
+ @item -U
+ Run screen in UTF-8 mode. This option tells screen that your terminal
+diff -up screen-4.9.1/termcap.c.omv~ screen-4.9.1/termcap.c
+--- screen-4.9.1/termcap.c.omv~	2023-09-05 13:44:09.652847250 +0200
++++ screen-4.9.1/termcap.c	2023-09-05 13:45:37.962792026 +0200
+@@ -71,7 +71,7 @@ char Termcap[TERMCAP_BUFSIZE + 8];	/* ne
+ static int Termcaplen;
+ static int tcLineLen;
+ char Term[MAXSTR+5];		/* +5: "TERM=" */
+-char screenterm[MAXTERMLEN + 1];	/* new $TERM, usually "screen" */
++char screenterm[MAXTERMLEN + 1];	/* new $TERM, usually "screen-256color" */
+ 
+ char *extra_incap, *extra_outcap;
+ 
+@@ -864,7 +864,7 @@ int aflag;
+   if ((s = getenv("SCREENCAP")) && strlen(s) < TERMCAP_BUFSIZE)
+     {
+       sprintf(Termcap, "TERMCAP=%s", s);
+-      strcpy(Term, "TERM=screen");
++      strcpy(Term, "TERM=screen-256color");
+       debug("getenvSCREENCAP o.k.\n");
+       return Termcap;
+     }
