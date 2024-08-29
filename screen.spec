@@ -4,8 +4,8 @@
 
 Summary:	A manager that supports multiple logins on one terminal
 Name:		screen
-Version:	4.9.1
-Release:	2
+Version:	5.0.0
+Release:	1
 License:	GPLv2+
 Group:		Terminals
 URL:		http://www.gnu.org/software/screen/
@@ -15,7 +15,6 @@ Source1:	screen.pam
 # screen-256color is much better.
 Patch:		screen-4.9.1-TERM-256color.patch
 Patch2:		screen-4.0.3-screenrc.patch
-Patch4:		screen-E3.patch
 Patch5:		screen-4.1.0-suppress_remap.patch
 BuildRequires:	pkgconfig(ncursesw)
 BuildRequires:	pam-devel

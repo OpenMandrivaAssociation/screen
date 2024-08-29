@@ -1,8 +1,7 @@
-diff -up screen-4.9.1/display.c.omv~ screen-4.9.1/display.c
-diff -up screen-4.9.1/doc/screen.1.omv~ screen-4.9.1/doc/screen.1
---- screen-4.9.1/doc/screen.1.omv~	2023-09-05 13:49:38.724245297 +0200
-+++ screen-4.9.1/doc/screen.1	2023-09-05 13:49:44.481302200 +0200
-@@ -378,7 +378,7 @@ See also the \*Qshelltitle\*U .screenrc
+diff -up screen-5.0.0/doc/screen.1.1~ screen-5.0.0/doc/screen.1
+--- screen-5.0.0/doc/screen.1.1~	2024-08-28 21:55:03.000000000 +0200
++++ screen-5.0.0/doc/screen.1	2024-08-29 13:27:10.983292260 +0200
+@@ -385,7 +385,7 @@ See also the \*Qshelltitle\*U .screenrc
  .TP 5
  .BI "\-T " term
  Set the $TERM environment variable using the specified term as
@@ -11,10 +10,10 @@ diff -up screen-4.9.1/doc/screen.1.omv~ screen-4.9.1/doc/screen.1
  .TP 5
  .B \-U
  Run screen in UTF-8 mode. This option tells screen that your terminal
-diff -up screen-4.9.1/doc/screen.texinfo.omv~ screen-4.9.1/doc/screen.texinfo
---- screen-4.9.1/doc/screen.texinfo.omv~	2023-09-05 13:49:50.328359922 +0200
-+++ screen-4.9.1/doc/screen.texinfo	2023-09-05 13:49:55.650412399 +0200
-@@ -444,7 +444,7 @@ This option is equivalent to the @code{s
+diff -up screen-5.0.0/doc/screen.texinfo.1~ screen-5.0.0/doc/screen.texinfo
+--- screen-5.0.0/doc/screen.texinfo.1~	2024-08-28 21:55:03.000000000 +0200
++++ screen-5.0.0/doc/screen.texinfo	2024-08-29 13:27:10.983292260 +0200
+@@ -450,7 +450,7 @@ This option is equivalent to the @code{s
  
  @item -T @var{term}
  Set the $TERM enviroment variable using the specified @emph{term} as
@@ -23,24 +22,30 @@ diff -up screen-4.9.1/doc/screen.texinfo.omv~ screen-4.9.1/doc/screen.texinfo
  
  @item -U
  Run screen in UTF-8 mode. This option tells screen that your terminal
-diff -up screen-4.9.1/termcap.c.omv~ screen-4.9.1/termcap.c
---- screen-4.9.1/termcap.c.omv~	2023-09-05 13:44:09.652847250 +0200
-+++ screen-4.9.1/termcap.c	2023-09-05 13:45:37.962792026 +0200
-@@ -71,7 +71,7 @@ char Termcap[TERMCAP_BUFSIZE + 8];	/* ne
+diff -up screen-5.0.0/termcap.c.1~ screen-5.0.0/termcap.c
+--- screen-5.0.0/termcap.c.1~	2024-08-29 13:27:10.983292260 +0200
++++ screen-5.0.0/termcap.c	2024-08-29 13:55:19.569390811 +0200
+@@ -58,7 +58,7 @@ char Termcap[TERMCAP_BUFSIZE + 8];	/* ne
  static int Termcaplen;
  static int tcLineLen;
- char Term[MAXSTR+5];		/* +5: "TERM=" */
+ char Term[MAXSTR + 5];		/* +5: "TERM=" */
 -char screenterm[MAXTERMLEN + 1];	/* new $TERM, usually "screen" */
 +char screenterm[MAXTERMLEN + 1];	/* new $TERM, usually "screen-256color" */
  
  char *extra_incap, *extra_outcap;
  
-@@ -864,7 +864,7 @@ int aflag;
-   if ((s = getenv("SCREENCAP")) && strlen(s) < TERMCAP_BUFSIZE)
-     {
-       sprintf(Termcap, "TERMCAP=%s", s);
--      strcpy(Term, "TERM=screen");
-+      strcpy(Term, "TERM=screen-256color");
-       debug("getenvSCREENCAP o.k.\n");
-       return Termcap;
-     }
+@@ -669,12 +669,12 @@ char *MakeTermcap(bool aflag)
+ 	}
+ 	if ((s = getenv("SCREENCAP")) && strlen(s) < TERMCAP_BUFSIZE) {
+ 		sprintf(Termcap, "TERMCAP=%s", s);
+-		strcpy(Term, "TERM=screen");
++		strcpy(Term, "TERM=screen-256color");
+ 		return Termcap;
+ 	}
+ 	Termcaplen = 0;
+ 	if (*screenterm == '\0' || strlen(screenterm) > MAXSTR - 3) {
+-		strncpy(screenterm, "screen", MAXTERMLEN);
++		strncpy(screenterm, "screen-256color", MAXTERMLEN);
+ 		screenterm[MAXTERMLEN] = '\0';
+ 	}
+ 	do {

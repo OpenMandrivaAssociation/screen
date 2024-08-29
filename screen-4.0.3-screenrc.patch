@@ -1,6 +1,6 @@
-diff -up screen-4.0.3/etc/etcscreenrc.screenrc screen-4.0.3/etc/etcscreenrc
---- screen-4.0.3/etc/etcscreenrc.screenrc	2003-12-05 14:46:13.000000000 +0100
-+++ screen-4.0.3/etc/etcscreenrc	2009-09-25 14:20:31.000000000 +0200
+diff -up screen-5.0.0/etc/etcscreenrc.2~ screen-5.0.0/etc/etcscreenrc
+--- screen-5.0.0/etc/etcscreenrc.2~	2024-08-28 21:55:03.000000000 +0200
++++ screen-5.0.0/etc/etcscreenrc	2024-08-29 13:56:47.840319600 +0200
 @@ -36,8 +36,8 @@ vbell_msg "   Wuff  ----  Wuff!!  "
  # IC    insert multiple chars
  # nx    terminal uses xon/xoff
@@ -32,33 +32,25 @@ diff -up screen-4.0.3/etc/etcscreenrc.screenrc screen-4.0.3/etc/etcscreenrc
  
  #
  # Do not use xterms alternate window buffer. 
-diff -up screen-4.0.3/etc/screenrc.screenrc screen-4.0.3/etc/screenrc
---- screen-4.0.3/etc/screenrc.screenrc	2006-10-23 15:06:32.000000000 +0200
-+++ screen-4.0.3/etc/screenrc	2009-09-25 14:31:30.000000000 +0200
-@@ -1,21 +1,11 @@
+diff -up screen-5.0.0/etc/screenrc.2~ screen-5.0.0/etc/screenrc
+--- screen-5.0.0/etc/screenrc.2~	2024-08-28 21:55:03.000000000 +0200
++++ screen-5.0.0/etc/screenrc	2024-08-29 14:16:45.890917781 +0200
+@@ -1,12 +1,8 @@
 -#
 -# Example of a user's .screenrc file
 -#
 -
- # This is how one can set a reattach password:
- # password ODSJQf.4IJN7E    # "1234"
- 
--# no annoying audible bell, please
+ # no annoying audible bell, please
 -vbell on
--
--# detach on hangup
++#vbell on
+ 
+ # detach on hangup
 -autodetach on
--
++#autodetach on
+ 
  # don't display the copyright page
  startup_message off
- 
- # emulate .logout message
--pow_detach_msg "Screen session of \$LOGNAME \$:cr:\$:nl:ended."
-+pow_detach_msg "Screen session of $LOGNAME $:cr:$:nl:ended."
- 
- # advertise hardstatus support to $TERMCAP
- # termcapinfo  * '' 'hs:ts=\E_:fs=\E\\:ds=\E_\E\\'
-@@ -40,18 +30,12 @@ defscrollback 1000
+@@ -40,18 +36,12 @@ defscrollback 1000
  
  ################
  #
@@ -79,7 +71,7 @@ diff -up screen-4.0.3/etc/screenrc.screenrc screen-4.0.3/etc/screenrc
  
  # Make the output buffer large for (fast) xterms.
  #termcapinfo xterm* OL=10000
-@@ -59,18 +43,18 @@ termcapinfo xterm* OL=100
+@@ -59,18 +49,18 @@ termcapinfo xterm* OL=100
  
  # tell screen that xterm can switch to dark background and has function
  # keys.
@@ -104,7 +96,7 @@ diff -up screen-4.0.3/etc/screenrc.screenrc screen-4.0.3/etc/screenrc
  
  # xterm-52 tweaks:
  # - uses background color for delete operations
-@@ -103,32 +87,12 @@ termcapinfo linux C8
+@@ -103,32 +93,12 @@ termcapinfo linux C8
  # old rxvt versions also need this
  # termcapinfo rxvt C8
  
@@ -140,7 +132,7 @@ diff -up screen-4.0.3/etc/screenrc.screenrc screen-4.0.3/etc/screenrc
  
  ################
  #
-@@ -140,9 +104,14 @@ bind ^] paste [.]
+@@ -140,9 +110,14 @@ bind ^] paste [.]
  # screen -t 40 2 rlogin server
  
  # caption always "%3n %t%? @%u%?%? [%h]%?%=%c"
