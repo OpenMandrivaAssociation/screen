@@ -8,7 +8,7 @@ Version:	5.0.0
 Release:	1
 License:	GPLv2+
 Group:		Terminals
-URL:		http://www.gnu.org/software/screen/
+URL:		https://www.gnu.org/software/screen/
 Source0:	ftp://ftp.gnu.org/gnu/screen/%{name}-%{version}.tar.gz
 Source1:	screen.pam
 # If TERM is set to screen, neovim syntax highlighting breaks badly.
