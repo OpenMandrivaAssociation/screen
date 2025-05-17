@@ -4,7 +4,7 @@
 
 Summary:	A manager that supports multiple logins on one terminal
 Name:		screen
-Version:	5.0.0
+Version:	5.0.1
 Release:	1
 License:	GPLv2+
 Group:		Terminals
@@ -58,8 +58,8 @@ CFLAGS="%{optflags} $(getconf LFS_CFLAGS)" \
 		--with-socket-dir=%{_localstatedir}/run/screen
 
 sed -e 's|.*#undef HAVE_BRAILLE.*|#define HAVE_BRAILLE 1|' -i config.h
-%make
-%make -C doc
+%make_build
+#make -C doc
 
 %install
 %make_install
@@ -97,7 +97,7 @@ EOF
 %files
 %doc NEWS README doc/FAQ doc/README.DOTSCREEN COPYING
 %{_mandir}/man1/screen.*
-%{_infodir}/screen.info*
+#{_infodir}/screen.info*
 %{_datadir}/screen
 %config(noreplace) %{_sysconfdir}/profile.d/20screen.sh
 %config(noreplace) %{_sysconfdir}/screenrc
