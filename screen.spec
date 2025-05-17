@@ -58,8 +58,8 @@ CFLAGS="%{optflags} $(getconf LFS_CFLAGS)" \
 		--with-socket-dir=%{_localstatedir}/run/screen
 
 sed -e 's|.*#undef HAVE_BRAILLE.*|#define HAVE_BRAILLE 1|' -i config.h
-%make
-%make -C doc
+%make_build
+#make -C doc
 
 %install
 %make_install
