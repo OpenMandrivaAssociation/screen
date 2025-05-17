@@ -97,7 +97,7 @@ EOF
 %files
 %doc NEWS README doc/FAQ doc/README.DOTSCREEN COPYING
 %{_mandir}/man1/screen.*
-%{_infodir}/screen.info*
+#{_infodir}/screen.info*
 %{_datadir}/screen
 %config(noreplace) %{_sysconfdir}/profile.d/20screen.sh
 %config(noreplace) %{_sysconfdir}/screenrc
