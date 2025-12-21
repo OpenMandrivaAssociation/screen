@@ -16,6 +16,11 @@ Source1:	screen.pam
 Patch:		screen-4.9.1-TERM-256color.patch
 Patch2:		screen-4.0.3-screenrc.patch
 Patch5:		screen-4.1.0-suppress_remap.patch
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	pkgconfig(ncursesw)
 BuildRequires:	pam-devel
 BuildRequires:	utempter-devel
