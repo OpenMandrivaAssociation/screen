@@ -1,31 +1,7 @@
-diff -up screen-5.0.0/doc/screen.1.1~ screen-5.0.0/doc/screen.1
---- screen-5.0.0/doc/screen.1.1~	2024-08-28 21:55:03.000000000 +0200
-+++ screen-5.0.0/doc/screen.1	2024-08-29 13:27:10.983292260 +0200
-@@ -385,7 +385,7 @@ See also the \*Qshelltitle\*U .screenrc
- .TP 5
- .BI "\-T " term
- Set the $TERM environment variable using the specified term as
--opposed to the default setting of \fBscreen\fP.
-+opposed to the default setting of \fBscreen-256color\fP.
- .TP 5
- .B \-U
- Run screen in UTF-8 mode. This option tells screen that your terminal
-diff -up screen-5.0.0/doc/screen.texinfo.1~ screen-5.0.0/doc/screen.texinfo
---- screen-5.0.0/doc/screen.texinfo.1~	2024-08-28 21:55:03.000000000 +0200
-+++ screen-5.0.0/doc/screen.texinfo	2024-08-29 13:27:10.983292260 +0200
-@@ -450,7 +450,7 @@ This option is equivalent to the @code{s
- 
- @item -T @var{term}
- Set the $TERM enviroment variable using the specified @emph{term} as
--opposed to the default setting of @code{screen}.
-+opposed to the default setting of @code{screen-256color}.
- 
- @item -U
- Run screen in UTF-8 mode. This option tells screen that your terminal
-diff -up screen-5.0.0/termcap.c.1~ screen-5.0.0/termcap.c
---- screen-5.0.0/termcap.c.1~	2024-08-29 13:27:10.983292260 +0200
-+++ screen-5.0.0/termcap.c	2024-08-29 13:55:19.569390811 +0200
-@@ -58,7 +58,7 @@ char Termcap[TERMCAP_BUFSIZE + 8];	/* ne
+diff -uraN screen-5.0.2/termcap.c omv-screen-5.0.2/termcap.c
+--- screen-5.0.2/termcap.c	2026-07-11 14:23:46.000000000 +0200
++++ omv-screen-5.0.2/termcap.c	2026-07-21 22:30:43.680556471 +0200
+@@ -63,7 +63,7 @@
  static int Termcaplen;
  static int tcLineLen;
  char Term[MAXSTR + 5];		/* +5: "TERM=" */
@@ -34,7 +10,7 @@ diff -up screen-5.0.0/termcap.c.1~ screen-5.0.0/termcap.c
  
  char *extra_incap, *extra_outcap;
  
-@@ -669,12 +669,12 @@ char *MakeTermcap(bool aflag)
+@@ -674,12 +674,12 @@
  	}
  	if ((s = getenv("SCREENCAP")) && strlen(s) < TERMCAP_BUFSIZE) {
  		sprintf(Termcap, "TERMCAP=%s", s);

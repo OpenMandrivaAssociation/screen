@@ -4,12 +4,12 @@
 
 Summary:	A manager that supports multiple logins on one terminal
 Name:		screen
-Version:	5.0.1
+Version:	5.0.2
 Release:	1
 License:	GPLv2+
 Group:		Terminals
 URL:		https://www.gnu.org/software/screen/
-Source0:	ftp://ftp.gnu.org/gnu/screen/%{name}-%{version}.tar.gz
+Source0:	https://ftp.gnu.org/gnu/screen/%{name}-%{version}.tar.gz
 Source1:	screen.pam
 # If TERM is set to screen, neovim syntax highlighting breaks badly.
 # screen-256color is much better.
@@ -102,8 +102,8 @@ EOF
 %files
 %doc NEWS README doc/FAQ doc/README.DOTSCREEN COPYING
 %{_mandir}/man1/screen.*
-#{_infodir}/screen.info*
 %{_datadir}/screen
+%{_datadir}/info/screen.info.*
 %config(noreplace) %{_sysconfdir}/profile.d/20screen.sh
 %config(noreplace) %{_sysconfdir}/screenrc
 %config(noreplace) %{_sysconfdir}/skel/.screenrc
