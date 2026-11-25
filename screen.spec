@@ -4,9 +4,9 @@
 
 Summary:	A manager that supports multiple logins on one terminal
 Name:		screen
-Version:	5.0.2
+Version:	5.0.3
 Release:	1
-License:	GPLv2+
+License:	GPL-3.0-or-later
 Group:		Terminals
 URL:		https://www.gnu.org/software/screen/
 Source0:	https://ftp.gnu.org/gnu/screen/%{name}-%{version}.tar.gz
@@ -16,17 +16,12 @@ Source1:	screen.pam
 Patch:		screen-4.9.1-TERM-256color.patch
 Patch2:		screen-4.0.3-screenrc.patch
 Patch5:		screen-4.1.0-suppress_remap.patch
-BuildRequires:	autoconf
-BuildRequires:	automake
-BuildRequires:	libtool-base
-BuildRequires:	slibtool
 BuildRequires:	make
 BuildRequires:	pkgconfig(ncursesw)
+BuildRequires:	pkgconfig(libcrypt)
 BuildRequires:	pam-devel
-BuildRequires:	utempter-devel
 BuildRequires:	texinfo
 BuildRequires:	systemd-rpm-macros
-Requires(pre):	shadow
 
 %description
 The screen utility allows you to have multiple logins on just one
@@ -39,7 +34,6 @@ support multiple logins on one terminal.
 
 %prep
 %autosetup -p1
-autoreconf -fiv
 
 for i in doc/screen.texinfo; do
     iconv -f iso8859-1 -t utf-8 < $i > $i.utf8 && mv -f ${i}{.utf8,}
@@ -49,22 +43,20 @@ sed -e 's|/usr/local/etc/screenrc|%{_sysconfdir}/screenrc|' -i etc/etcscreenrc d
 sed -e 's|/local/etc/screenrc|%{_sysconfdir}/screenrc|' -i doc/*
 
 %build
-# 5 is tty group
+# libcurses is the narrow library. tgetent has to come from ncursesw.
+export LIBS="-lncursesw"
+# Screen 5 takes --enable-socket-dir and --with-system_screenrc.
+# 256-color TERM comes from the termcap patch. tty is group 5.
 CFLAGS="%{optflags} $(getconf LFS_CFLAGS)" \
 %configure \
-		--enable-colors256 \
-		--with-pty-mode=0620 \
-		--with-pty-group=$(getent group tty | cut -d : -f 3) \
-		--enable-telnet \
 		--enable-pam \
-		--enable-rxvt_osc \
-		--enable-use-locale \
-		--with-sys-screenrc=%{_sysconfdir}/screenrc \
-		--with-socket-dir=%{_localstatedir}/run/screen
+		--enable-telnet \
+		--enable-socket-dir=%{_localstatedir}/run/screen \
+		--with-system_screenrc=%{_sysconfdir}/screenrc \
+		--with-pty-mode=0620 \
+		--with-pty-group=$(getent group tty | cut -d : -f 3)
 
-sed -e 's|.*#undef HAVE_BRAILLE.*|#define HAVE_BRAILLE 1|' -i config.h
 %make_build
-#make -C doc
 
 %install
 %make_install
@@ -96,8 +88,11 @@ d /run/screen 0775 root screen
 %endif
 EOF
 
-%pre
-/usr/sbin/groupadd -g 84 -r -f screen
+# GID 84 is the historical screen group.
+mkdir -p %{buildroot}%{_sysusersdir}
+cat > %{buildroot}%{_sysusersdir}/screen.conf <<EOF
+g screen 84
+EOF
 
 %files
 %doc NEWS README doc/FAQ doc/README.DOTSCREEN COPYING
@@ -109,6 +104,7 @@ EOF
 %config(noreplace) %{_sysconfdir}/skel/.screenrc
 %config(noreplace) %{_sysconfdir}/pam.d/screen
 %{_tmpfilesdir}/screen.conf
+%{_sysusersdir}/screen.conf
 %if %{with multiuser}
 %attr(4755,root,root) %{_bindir}/screen
 %ghost %attr(755,root,root) %{_localstatedir}/run/screen
